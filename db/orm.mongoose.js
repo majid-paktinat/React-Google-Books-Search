@@ -36,15 +36,15 @@ const db = require( './models' );
 
 // input: <object> { name, imageUrl, tags }
 // output: thumbId on success, false otherwise
-// async function saveThumbnail( myData ){
-//    const thumbnailData = {
-//       name: myData.name,
-//       imageUrl: myData.imageUrl,
-//       tags: myData.tags
-//    };
-//    const dbResult = await ( new db.thumbnail(thumbnailData) ).save();
-//    return dbResult._id ? dbResult._id : false;
-// }
+async function saveThumbnail( myData ){
+   const thumbnailData = {
+      name: myData.name,
+      imageUrl: myData.imageUrl,
+      tags: myData.tags
+   };
+   const dbResult = await ( new db.thumbnail(thumbnailData) ).save();
+   return dbResult._id ? dbResult._id : false;
+}
 
 // input: thumbId, <object> { name, imageUrl, tags }
 // output: thumbId on success or false
