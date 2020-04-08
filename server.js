@@ -46,7 +46,7 @@ app.use( express.urlencoded({ extended: false }) );
 
 
 app.get('*', function( req,res ){
-    // console.log("redirect to index page!");
+    console.log("redirect to index page!");
     res.sendFile( path.join(__dirname, '/client/build/', 'index.html') );
 });
 
