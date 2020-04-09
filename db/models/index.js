@@ -15,6 +15,7 @@ files.forEach( function( filename ){
 // Exporting an object containing all of our models
 module.exports = {
    db,
-   BookModel: require("./book")
+   BookModel23: require("./book")
+   
  };
  

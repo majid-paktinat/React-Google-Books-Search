@@ -8,10 +8,23 @@ function Search( props ){
     //         : '<i class="far fa-star"></i>' );
     // }
 
+
+    const [ showBook, setShowBook ]= useState([]);
     const txtSearch = useRef();
+    
+    
+    
     function searched(event) {
         event.preventDefault();
         console.log(txtSearch.current.value);
+
+        searchbooks(txtSearch.current.value);
+    }
+
+
+    async function searchbooks( txtSearch ){    
+        const apiProduct = await fetch(`/api/book/${txtSearch}`).then( result=>result.json() );
+        setShowBook( apiProduct );
     }
 
     return (
@@ -36,15 +49,29 @@ function Search( props ){
 
 
 
-            <div class="row">
+            <div class='row'>
                 Search Result
-            </div>
+                    <div class='col-4'>
+                        <img src={showBook.image} class='img-thumbnail' />
+                    </div>
+                    <div class='col-8'>
+                        <h1>{showBook.title}</h1>
+                        <h2>{showBook.description}</h2>
 
+                        {/* <h3><RatingBar rating={showProduct.rating} /></h3> */}
+
+                        {/* <ProductAction /> */}
+                        {/* <button onClick={addToCart} class="btn btn-lg btn-primary"><i class="fas fa-cart-plus"></i></button> */}
+                        
+                    </div>
+                    {/* {showBook.description} */}
+            </div>
 
 
 
         </>
     )
 }
+
 
 export default Search;

@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 const bcrypt = require ( 'bcrypt' );
 
-mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, {useNewUrlParser: true});
+// mongoose.connect(`mongodb://localhost:27017/${process.env.DB_NAME}`, {useNewUrlParser: true});
+mongoose.connect(`mongodb://localhost/googlebooksDB`, {useNewUrlParser: true});
+
 
 // include mongoose models (it will include each file in the models directory)
 const db = require( './models' );
@@ -36,15 +38,15 @@ const db = require( './models' );
 
 // input: <object> { name, imageUrl, tags }
 // output: thumbId on success, false otherwise
-async function saveThumbnail( myData ){
-   const thumbnailData = {
-      name: myData.name,
-      imageUrl: myData.imageUrl,
-      tags: myData.tags
-   };
-   const dbResult = await ( new db.thumbnail(thumbnailData) ).save();
-   return dbResult._id ? dbResult._id : false;
-}
+// async function saveThumbnail( myData ){
+//    const thumbnailData = {
+//       name: myData.name,
+//       imageUrl: myData.imageUrl,
+//       tags: myData.tags
+//    };
+//    const dbResult = await ( new db.thumbnail(thumbnailData) ).save();
+//    return dbResult._id ? dbResult._id : false;
+// }
 
 // input: thumbId, <object> { name, imageUrl, tags }
 // output: thumbId on success or false
@@ -68,21 +70,46 @@ async function saveThumbnail( myData ){
 
 // input: thumbId
 // output: { thumbId, name, imageUrl, tags, creationTime } || false
-// async function getThumbnail( thumbId ){
-//    const dbData = await db.thumbnail.findById(thumbId);
-//    console.log( '[getThumbnail] dbData', dbData );
-//    if( !dbData ) {
-//       return false;
-//    }
-//    /* return consistent format data */
-//    return {
-//       thumbId: dbData._id,
-//       name: dbData.name,
-//       imageUrl: dbData.imageUrl,
-//       tags: dbData.tags,
-//       creationTime: dbData.createdAt
-//    };
-// }
+async function getBook( txtSearch ){
+   console.log( '[getBook] txtSearch:', txtSearch );
+   
+    const dbData = await db.BookModel23.find({}); //findOne({ title: txtSearch });
+   
+   //  db.book.find({})
+   //  .then(dbBook => {
+   //    res.json(dbBook);
+   //  })
+   //  .catch(err => {
+   //    res.json(err);
+   //  });
+
+   console.log( '[getBook] result:', dbData );
+   
+   if( !dbData ) {
+      return false;
+   }
+   /* return consistent format data */
+   return {
+      bookId: dbData[0]._id,
+      bookTitle: dbData[0].title,
+      bookImageUrl: dbData[0].image,
+      bookAuthors :dbData[0].authors,
+      bookLink :dbData[0].link,
+      bookDescription :dbData[0].description
+      
+         };
+
+
+
+         // db.Bookmodel.find({})
+         // .then(dbBook => {
+         //   res.json(dbBook);
+         // })
+         // .catch(err => {
+         //   res.json(err);
+         // });
+
+}
 
 // input: <object> { name, email, password }
 // output: { message, id, name }
@@ -149,12 +176,13 @@ async function saveThumbnail( myData ){
 //    return dbResult.ok ? true : false;
 // }
 
+
 module.exports = {
    // listThumbnails,
-   saveThumbnail //,
+   // saveThumbnail,
    // deleteThumbnail,
    // updateThumbnail,
-   // getThumbnail,
+   getBook//,
    // addToCart,
    // removeFromCart,
    // registerUser,

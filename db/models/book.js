@@ -4,15 +4,15 @@ const Schema = mongoose.Schema;
 
 const BookSchema = new Schema({
   title        : { type : String },
-  authors      : { type : String },
+  authors      : [],
   description  : { type : String },
   image : { type : String },
   link : { type : String }
-});
+}, { collection: 'boook' });
 
-const BookModel = mongoose.model("BookModel", BookSchema);
+const Bookmodel22 = mongoose.model("Bookmodel", BookSchema, "booook"); // booook overrides boook 
 
-module.exports = BookModel;
+module.exports = Bookmodel22;
 
 
 // {

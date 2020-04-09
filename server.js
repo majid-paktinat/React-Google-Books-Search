@@ -5,7 +5,7 @@ const path =require('path');
 const orm = require( './db/orm.mongoose' );
 
 const PORT = process.env.PORT || 8080;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB";
+// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB";
 
 const app = express();
 // const upload = require('multer')({ dest: 'public/uploads/' });
@@ -21,14 +21,35 @@ app.use( express.urlencoded({ extended: false }) );
 //     res.send( products );
 // });
 
-// app.get('/api/product/:id', async function( req,res ){
+// const mongoose = require('mongoose');
+
+// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB", { useNewUrlParser: true });
+// const db = require("./db/models");
+app.get("/books", async function (req, res) {
+    const books = await orm.getBook("title")
+    //console.log("SSSSSSSSSSSSSSS");
+    console.log(books);
+    res.send(books);
+  });
+
+// app.get('/api/book/', async function( req,res ){
 //     // parse the :id and serve ONE product.
-//     const products = JSON.parse( fs.readFileSync( "db/products.json" ) );
-//     const id = req.params.id;
+//     //const books = JSON.parse( fs.readFileSync( "db/products.json" ) );
+//     //const title = req.params.title;
 
-//     const product = products.filter( product=>product.id===id )[0]
+//     //const books = products.filter( product=>product.id===id )[0]
 
-//     res.send( product );
+//     const books = await orm.getBook("title");
+//     // .then(books => {
+//     //   res.json(books);
+//     // })
+//     // .catch(err => {
+//     //     console.log("error")
+//     //   res.json(err);
+//     // });
+
+//     res.send( books );
+
 // });
 
 // app.post('/api/product/:id/review', async function( req,res ){
@@ -43,6 +64,20 @@ app.use( express.urlencoded({ extended: false }) );
 //     res.send( registerResult );
 // })
 
+
+
+// const db = require( './db//models' );
+// const mongoose = require('mongoose');
+// mongoose.connect(`mongodb://localhost/googlebooksDB`, {useNewUrlParser: true});
+// app.get("/books", (req, res) => {
+//     db.Bookmodel.find({})
+//       .then(dbBook => {
+//         res.json(dbBook);
+//       })
+//       .catch(err => {
+//         res.json(err);
+//       });
+//   });
 
 
 app.get('*', function( req,res ){
