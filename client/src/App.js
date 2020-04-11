@@ -6,26 +6,15 @@ import { GlobalStore } from "./components/GlobalStore";
 import NavBar from './components/NavBar';
 import Search from './components/Search';
 import Saved from './components/Saved';
-// import SettingsPage from './components/SettingsPage';
-// import ProductAddPage from './components/ProductAddPage';
-// import CartPage from './components/CartPage';
-// import RegisterPage from './components/RegisterPage';
-// import Footer from './components/Footer';
 
-/* Our EVEREST App 
 
-* added 'id' to product.json file (any different 3 ids)
-* added <Link> to the ProductCard
-
-Today's Mission:
-- Add Global Storage
-- Add Mongo
-
-*/
 function App() {
+alert("GOOGLE BOOK 0 !")
   return (
     <Router>
       <GlobalStore> {/* provides common elements across components */}
+      {alert("GOOGLE BOOK 1 !")}
+
       <div className="App">
           <NavBar />
           <div class="container">
@@ -33,13 +22,10 @@ function App() {
             <Route path="/saved" component={Saved} />
             {/* <Route path="/productinfo/:id" component={Saved} /> */}
 
-            {/* <Route exact path="/productadd" component={ProductAddPage} />
-            <Route exact path="/cart" component={CartPage} />
-            <Route exact path="/registeruser" component={RegisterPage} />
-            <Route exact path="/settings" component={SettingsPage} /> */}
+           
           </div>
 
-          {/* <Footer /> */}
+          
       </div>
       </GlobalStore>
     </Router>

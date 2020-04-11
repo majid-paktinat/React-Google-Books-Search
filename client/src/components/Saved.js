@@ -1,6 +1,7 @@
 import React from "react";
 
 function Saved( props ){
+    alert("GOOGLE BOOK 4-1 !")
     // let starsHtml = '';
     // for( let starCnt=1; starCnt<=5; starCnt++ ){
     //     starsHtml += ( props.rating >= starCnt 
@@ -9,6 +10,7 @@ function Saved( props ){
     // }
     return (
         <>
+        {alert("GOOGLE BOOK 4-2 !")}
         Saved
         </>
     )
