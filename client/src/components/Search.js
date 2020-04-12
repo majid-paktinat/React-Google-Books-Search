@@ -23,8 +23,9 @@ function Search( props ){
 
 
     async function searchbooks( txtSearch ){    
-        const apiProduct = await fetch(`/api/book/${txtSearch}`).then( result=>result.json() );
-        setShowBook( apiProduct );
+        const apiBook = await fetch(`/api/book/${txtSearch}`).then( result=>result.json() );
+        console.log(apiBook)
+        setShowBook( apiBook );
     }
 
     return (
@@ -51,20 +52,26 @@ function Search( props ){
 
             <div class='row'>
                 Search Result
-                    <div class='col-4'>
-                        <img src={showBook.image} class='img-thumbnail' />
-                    </div>
-                    <div class='col-8'>
-                        <h1>{showBook.title}</h1>
-                        <h2>{showBook.description}</h2>
 
-                        {/* <h3><RatingBar rating={showProduct.rating} /></h3> */}
+                <div class="mb-3">
+                    <ul class="col-6 list-group">
+                        { showBook.map( book =>
+                        <>
+                        <li class="list-group-item">{book.volumeInfo.title}</li> 
+                       
+                        <li class="list-group-item"><img src={book.volumeInfo.imageLinks} class='img-thumbnail' /></li> 
+                        <li class="list-group-item"><img src={book.volumeInfo.infoLink} class='img-thumbnail' /></li> 
+                        <li class="list-group-item">{book.volumeInfo.description}</li> 
+                        <li class="list-group-item">{book.volumeInfo.authors}</li> 
+                        </>
 
-                        {/* <ProductAction /> */}
-                        {/* <button onClick={addToCart} class="btn btn-lg btn-primary"><i class="fas fa-cart-plus"></i></button> */}
                         
-                    </div>
-                    {/* {showBook.description} */}
+                        )}
+                    </ul>
+                </div>
+
+
+                   
             </div>
 
 

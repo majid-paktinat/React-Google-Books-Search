@@ -1,6 +1,7 @@
 require('dotenv').config(); // --> process.env
 const express = require( 'express' );
 const path =require('path');
+const axios = require('axios');
 // const fs = require('fs');
 const orm = require( './db/orm.mongoose' );
 
@@ -25,32 +26,38 @@ app.use( express.urlencoded({ extended: false }) );
 
 // mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB", { useNewUrlParser: true });
 // const db = require("./db/models");
-app.get("/books", async function (req, res) {
-    const books = await orm.getBook("title")
-    //console.log("SSSSSSSSSSSSSSS");
-    console.log(books);
-    res.send(books);
-  });
+// app.get("/books", async function (req, res) {
+//     //const books = await orm.getBook("title")
+//     const books = await fetch('https://www.googleapis.com/books/v1/volumes?q='+ ).then( result=>result.json() )
 
-// app.get('/api/book/', async function( req,res ){
-//     // parse the :id and serve ONE product.
-//     //const books = JSON.parse( fs.readFileSync( "db/products.json" ) );
-//     //const title = req.params.title;
 
-//     //const books = products.filter( product=>product.id===id )[0]
+//     console.log(books);
+//     res.send(books);
+//   });
 
-//     const books = await orm.getBook("title");
-//     // .then(books => {
-//     //   res.json(books);
-//     // })
-//     // .catch(err => {
-//     //     console.log("error")
-//     //   res.json(err);
-//     // });
+app.get('/api/book/:title', async function( req,res ){
+    // parse the :id and serve ONE product.
+    // const books = JSON.parse( fs.readFileSync( "db/products.json" ) );
+    const title = req.params.title;
 
-//     res.send( books );
+    console.log(escape(title))
 
-// });
+    //const books = products.filter( product=>product.id===id )[0]
+
+    // const books = await orm.getBook("title");
+    const books = await axios.get('https://www.googleapis.com/books/v1/volumes?q='+ escape(title)) //+ "&key=AIzaSyBAzph4dcGUEI9hkcIh7XuZJzpBuNhEJ9s&projection=lite")
+    .then(books => {
+      console.log(books.data.items)
+      res.json(books.data.items);
+    })
+    .catch(err => {
+        console.log("error")
+        res.json(err);
+    });
+
+    // res.send( books );
+
+});
 
 // app.post('/api/product/:id/review', async function( req,res ){
 

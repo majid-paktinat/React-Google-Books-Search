@@ -8,9 +8,11 @@
   },
   "main": "server.js",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcrypt": "^4.0.1",
     "dotenv": "^8.2.0",
     "mongoose": "^5.9.7",
+    "node-fetch": "^2.6.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "^3.4.1"
