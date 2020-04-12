@@ -1,4 +1,5 @@
 require('dotenv').config(); // --> process.env
+const mongoose = require('mongoose');
 const express = require( 'express' );
 const path =require('path');
 const axios = require('axios');
@@ -7,7 +8,7 @@ const bodyParser = require("body-parser");
 const orm = require( './db/orm.mongoose' );
 
 const PORT = process.env.PORT || 8080;
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB";
+// const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB";
 
 const app = express();
 // const upload = require('multer')({ dest: 'public/uploads/' });
@@ -25,7 +26,7 @@ app.use( express.urlencoded({ extended: false }) );
 
 // const mongoose = require('mongoose');
 
-// mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB", { useNewUrlParser: true });
+//mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/googlebooksDB", { useNewUrlParser: true });
 // const db = require("./db/models");
 // app.get("/books", async function (req, res) {
 //     //const books = await orm.getBook("title")
