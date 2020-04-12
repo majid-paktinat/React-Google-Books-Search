@@ -2,6 +2,7 @@ require('dotenv').config(); // --> process.env
 const express = require( 'express' );
 const path =require('path');
 const axios = require('axios');
+const bodyParser = require("body-parser");
 // const fs = require('fs');
 const orm = require( './db/orm.mongoose' );
 
@@ -35,7 +36,7 @@ app.use( express.urlencoded({ extended: false }) );
 //     res.send(books);
 //   });
 
-app.get('/api/book/:title', async function( req,res ){
+app.get('/api/books/:title', async function( req,res ){
     // parse the :id and serve ONE product.
     // const books = JSON.parse( fs.readFileSync( "db/products.json" ) );
     const title = req.params.title;
@@ -55,7 +56,41 @@ app.get('/api/book/:title', async function( req,res ){
         res.json(err);
     });
 
-    // res.send( books );
+
+});
+
+app.use(bodyParser.json());
+app.post('/api/books', async function( req,res ){
+  // parse the :id and serve ONE product.
+  // const books = JSON.parse( fs.readFileSync( "db/products.json" ) );
+  // const bookobj = req.params.bookitem;
+  const bookData = req.body;
+      // console.log( `[POST: /api/user/registration] userData: `, userData );
+      
+      const Result = await orm.saveBook( bookData );
+      res.send( Result );
+
+  // console.log(req.body.mybook.booktitle)
+  // req.body.mybook.booktitle
+  // req.body.mybook.bookimageLinks 
+  // req.body.mybook.bookinfoLink 
+  // req.body.mybook.bookdescription 
+  // req.body.mybook.bookauthors
+
+  //const books = products.filter( product=>product.id===id )[0]
+
+  // const books = await orm.getBook("title");
+  // const books = await axios.get('https://www.googleapis.com/books/v1/volumes?q='+ escape(title)) //+ "&key=AIzaSyBAzph4dcGUEI9hkcIh7XuZJzpBuNhEJ9s&projection=lite")
+  // .then(books => {
+  //   console.log(books.data.items)
+  //   res.json(books.data.items);
+  // })
+  // .catch(err => {
+  //     console.log("error")
+  //     res.json(err);
+  // });
+
+  // res.send({});
 
 });
 

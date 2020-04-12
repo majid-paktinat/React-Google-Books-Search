@@ -23,10 +23,41 @@ function Search( props ){
 
 
     async function searchbooks( txtSearch ){    
-        const apiBook = await fetch(`/api/book/${txtSearch}`).then( result=>result.json() );
+        const apiBook = await fetch(`/api/books/${txtSearch}`).then( result=>result.json() );
         console.log(apiBook)
         setShowBook( apiBook );
     }
+
+
+    async function savebook( book ){    
+        // const apiBook = await fetch(`/api/books/${txtSearch}`).then( result=>result.json() );
+        // console.log(apiBook)
+        // setShowBook( apiBook );
+
+        console.log("VVVVVVVV")
+        console.log(book.booktitle);
+
+        // Simple POST request with a JSON body using fetch
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({mybook:{ 
+                booktitle : book.booktitle,
+                bookimageLinks : book.bookimageLinks,
+                bookinfoLink : book.bookinfoLink,
+                bookdescription : book.bookdescription,
+                bookauthors : book.bookauthors 
+            }})
+        };
+        const apiBook = await fetch(`/api/books`, requestOptions).then( result=>result.json() );
+        console.log(apiBook)
+        // fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
+        //     .then(response => response.json())
+            // .then(data => this.setState({ postId: data.id }));
+
+    }
+
+    
 
     return (
         <>
@@ -63,6 +94,22 @@ function Search( props ){
                         <li class="list-group-item"><img src={book.volumeInfo.infoLink} class='img-thumbnail' /></li> 
                         <li class="list-group-item">{book.volumeInfo.description}</li> 
                         <li class="list-group-item">{book.volumeInfo.authors}</li> 
+                        {
+                            
+                        }
+                        <button onClick={
+                             
+                            () => savebook( 
+                                
+                                {
+                                    booktitle : book.volumeInfo.title,
+                                    bookimageLinks : book.volumeInfo.imageLinks,
+                                    bookinfoLink : book.volumeInfo.infoLink,
+                                    bookdescription : book.volumeInfo.description,
+                                    bookauthors : book.volumeInfo.authors
+                                }
+
+                             )}>Save in Mongo</button>
                         </>
 
                         

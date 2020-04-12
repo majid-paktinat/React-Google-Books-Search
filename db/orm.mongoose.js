@@ -111,6 +111,58 @@ async function getBook( txtSearch ){
 
 }
 
+async function saveBook( bookData ){
+   console.log( 'inside [saveBook]' );
+   
+   //  const dbData = await db.BookModel23.find({}); //findOne({ title: txtSearch });
+   
+   console.log(bookData);
+
+    const saveData = {
+            title: bookData.mybook.booktitle,
+            image: bookData.mybook.bookimageLinks.thumbnail,
+            link: bookData.mybook.bookinfoLink,
+            description : bookData.mybook.bookdescription,
+            authors: bookData.mybook.bookauthors
+          };
+
+          console.log(saveData);
+
+          const dbBook = new db.BookModel23( saveData );
+          const saveBook = await dbBook.save();
+          console.log(saveBook);
+          return { message: "Book successfully saved ", id: saveBook._id, title:saveBook.title };
+         
+   // if( !dbData ) {
+   //    return false;
+   // }
+   // /* return consistent format data */
+   // return {
+   //    bookId: dbData[0]._id,
+   //    bookTitle: dbData[0].title,
+   //    bookImageUrl: dbData[0].image,
+   //    bookAuthors :dbData[0].authors,
+   //    bookLink :dbData[0].link,
+   //    bookDescription :dbData[0].description
+      
+   //       };
+
+
+
+         // db.Bookmodel.find({})
+         // .then(dbBook => {
+         //   res.json(dbBook);
+         // })
+         // .catch(err => {
+         //   res.json(err);
+         // });
+
+}
+
+
+
+
+
 // input: <object> { name, email, password }
 // output: { message, id, name }
 // async function registerUser( userData ){
@@ -182,7 +234,8 @@ module.exports = {
    // saveThumbnail,
    // deleteThumbnail,
    // updateThumbnail,
-   getBook//,
+   getBook,
+saveBook,
    // addToCart,
    // removeFromCart,
    // registerUser,
