@@ -1,14 +1,7 @@
 import React, { useState, useRef } from "react";
 
 function Search( props ){
-    // let starsHtml = '';
-    // for( let starCnt=1; starCnt<=5; starCnt++ ){
-    //     starsHtml += ( props.rating >= starCnt 
-    //         ? '<i class="fas fa-star text-warning"></i>'
-    //         : '<i class="far fa-star"></i>' );
-    // }
-
-
+   
     const [ showBook, setShowBook ]= useState([]);
     const txtSearch = useRef();
     
@@ -16,8 +9,7 @@ function Search( props ){
     
     function searched(event) {
         event.preventDefault();
-        console.log(txtSearch.current.value);
-
+        // console.log(txtSearch.current.value);
         searchbooks(txtSearch.current.value);
     }
 
@@ -30,12 +22,8 @@ function Search( props ){
 
 
     async function savebook( book ){    
-        // const apiBook = await fetch(`/api/books/${txtSearch}`).then( result=>result.json() );
-        // console.log(apiBook)
-        // setShowBook( apiBook );
-
-        console.log("VVVVVVVV")
-        console.log(book.booktitle);
+        // console.log("<<executing savebook function inside search component>>")
+        // console.log(book.booktitle);
 
         // Simple POST request with a JSON body using fetch
         const requestOptions = {
@@ -50,11 +38,6 @@ function Search( props ){
             }})
         };
         const apiBook = await fetch(`/api/books`, requestOptions).then( result=>result.json() );
-        console.log(apiBook)
-        // fetch('https://jsonplaceholder.typicode.com/posts', requestOptions)
-        //     .then(response => response.json())
-            // .then(data => this.setState({ postId: data.id }));
-
     }
 
     
@@ -90,8 +73,8 @@ function Search( props ){
                         <>
                         <li class="list-group-item">{book.volumeInfo.title}</li> 
                        
-                        <li class="list-group-item"><img src={book.volumeInfo.imageLinks} class='img-thumbnail' /></li> 
-                        <li class="list-group-item"><img src={book.volumeInfo.infoLink} class='img-thumbnail' /></li> 
+                        <li class="list-group-item"><img src={(book.volumeInfo.imageLinks)?book.volumeInfo.imageLinks.smallThumbnail:'https://placehold.it/100x100'} class='img-thumbnail' /></li> 
+                        <li class="list-group-item"><a href={book.volumeInfo.infoLink}>link</a></li> 
                         <li class="list-group-item">{book.volumeInfo.description}</li> 
                         <li class="list-group-item">{book.volumeInfo.authors}</li> 
                         {

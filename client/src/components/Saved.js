@@ -1,17 +1,35 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 function Saved( props ){
-    alert("GOOGLE BOOK 4-1 !")
-    // let starsHtml = '';
-    // for( let starCnt=1; starCnt<=5; starCnt++ ){
-    //     starsHtml += ( props.rating >= starCnt 
-    //         ? '<i class="fas fa-star text-warning"></i>'
-    //         : '<i class="far fa-star"></i>' );
-    // }
+    const [ savedBooks, setSavedBooks ]= useState([]);
+    
+    // load only ONCE at component load
+    var savedbooksapi = [];
+    useEffect( function(){
+        loadBooks();
+    }, [] );
+
+    ;
+    async function loadBooks( ){    
+        const apiBook = await fetch(`/api/books`).then( result=>result.json() );
+        setSavedBooks(apiBook)
+    }
+
     return (
         <>
-        {alert("GOOGLE BOOK 4-2 !")}
-        Saved
+                <div class="mb-3">
+                    <ul class="col-6 list-group">
+                        { savedBooks.map( book =>
+                        <>
+                            <li class="list-group-item">{book.title}</li> 
+                            <li class="list-group-item"><img src={book.image} class='img-thumbnail' /></li> 
+                            <li class="list-group-item"><a href={book.link} class='img-thumbnail'>link</a></li> 
+                            <li class="list-group-item">{book.authors}</li> 
+                            <li class="list-group-item">{book.description}</li> 
+                        </>
+                        )}
+                    </ul>
+                </div>
         </>
     )
 }
