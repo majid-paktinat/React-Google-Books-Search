@@ -32,7 +32,14 @@ async function saveBook( bookData ){
           return { message: "Book successfully saved ", id: saveBook._id, title:saveBook.title };
 }
 
+async function deleteBook( bookid ){
+   const dbResult = await db.BookModel23.findByIdAndDelete(bookid);
+   return dbResult._id ? true : false;
+}
+
+
 module.exports = {
    getBook,
-   saveBook
+   saveBook,
+   deleteBook
 };

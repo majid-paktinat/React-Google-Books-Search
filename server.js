@@ -56,6 +56,13 @@ app.post('/api/books', async function( req,res ){
 });
 
 
+app.delete('/api/books/:id', async function( req,res ){
+    const deleteID = req.params.id;
+    const Result = await orm.deleteBook( deleteID );
+    res.send( Result );
+});
+
+
 app.get('*', function( req,res ){
     console.log("redirect to index page!");
     res.sendFile( path.join(__dirname, '/client/build/', 'index.html') );

@@ -45,10 +45,6 @@ function Search( props ){
     return (
         <>
             
-            <div class="row">
-                JUMBO
-            </div>
-
 
             <div class="row">
                 Book Search
@@ -62,11 +58,7 @@ function Search( props ){
                 </form>
             </div>
 
-
-
             <div class='row'>
-                Search Result
-
                 <div class="mb-3">
                     <ul class="col-6 list-group">
                         { showBook.map( book =>
