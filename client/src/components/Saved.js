@@ -32,7 +32,7 @@ function Saved( props ){
         };
 
         const deleteResult = await fetch(`/api/books/`+data, requestOptions).then( result=>result.json() );
-        if (!deleteResult) loadBooks();
+        if (deleteResult) loadBooks();
     }
     
 
