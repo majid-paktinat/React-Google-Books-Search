@@ -6,10 +6,14 @@ function Search( props ){
     const txtSearch = useRef();
     
     
+    const style = {
+        Box: { border: "1px darkgray solid" },
+        BgColor: { backgroundColor: 'white'}
+      }
+
     
     function searched(event) {
         event.preventDefault();
-        // console.log(txtSearch.current.value);
         searchbooks(txtSearch.current.value);
     }
 
@@ -21,9 +25,9 @@ function Search( props ){
     }
 
 
-    async function savebook( book ){    
+    async function savebook( e, book ){    
         // console.log("<<executing savebook function inside search component>>")
-        // console.log(book.booktitle);
+        e.preventDefault();
 
         // Simple POST request with a JSON body using fetch
         const requestOptions = {
@@ -40,63 +44,94 @@ function Search( props ){
         const apiBook = await fetch(`/api/books`, requestOptions).then( result=>result.json() );
     }
 
-    
+    function viewlink(e){
+        window.location.assign(e.target.dataset.majid);
+    }
+
 
     return (
         <>
-            
+            <div class="container">
 
             <div class="row">
-                Book Search
-                <br/>
-                <form>
-                    <div class="form-group">
-                        <label for="searchtxt"></label>
-                        <input id="searchtxt" type="text" ref={txtSearch} class="form-control"></input>
+                <div class="col-12 pl-0 pr-0" style={style.Box}>
+                    <div class="jumbotron jumbotron-fluid pb-1 pt-1 mb-0" style={style.BgColor}>
+                        <h1 class="display-6 d-flex justify-content-center mt-3">(React) Google Books Search</h1>
+                        <p class="display-6 lead d-flex justify-content-center">Search for and Save Books of Interest</p>
                     </div>
-                    <button onClick={searched} class="btn btn-primary submit">Search</button>
-                </form>
-            </div>
-
-            <div class='row'>
-                <div class="mb-3">
-                    <ul class="col-6 list-group">
-                        { showBook.map( book =>
-                        <>
-                        <li class="list-group-item">{book.volumeInfo.title}</li> 
-                       
-                        <li class="list-group-item"><img src={(book.volumeInfo.imageLinks)?book.volumeInfo.imageLinks.smallThumbnail:'https://placehold.it/100x100'} class='img-thumbnail' /></li> 
-                        <li class="list-group-item"><a href={book.volumeInfo.infoLink}>link</a></li> 
-                        <li class="list-group-item">{book.volumeInfo.description}</li> 
-                        <li class="list-group-item">{book.volumeInfo.authors}</li> 
-                        {
-                            
-                        }
-                        <button onClick={
-                             
-                            () => savebook( 
-                                
-                                {
-                                    booktitle : book.volumeInfo.title,
-                                    bookimageLinks : book.volumeInfo.imageLinks,
-                                    bookinfoLink : book.volumeInfo.infoLink,
-                                    bookdescription : book.volumeInfo.description,
-                                    bookauthors : book.volumeInfo.authors
-                                }
-
-                             )}>Save in Mongo</button>
-                        </>
-
-                        
-                        )}
-                    </ul>
                 </div>
+            </div>        
 
+            <div class="row"> <div class="col-12"> &nbsp; </div> </div>        
 
-                   
+            <div class="row">
+                <div class="col-12 pl-0 pr-0" style={style.Box}>
+                    <div class="jumbotron pl-0 pr-0 pb-0 pt-0" style={style.BgColor}>
+                        <div class="row ">
+                            <div class="col-12 pl-4 ml-2 mt-3 "><h4>Book Search</h4></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 pl-5 pr-5">
+                                    <div class="form-group mb-0 ">
+                                        <label for="searchtxt"></label>
+                                        <input id="searchtxt" type="text" ref={txtSearch} class="form-control"></input>
+                                    </div>
+                                    <div class="col-12 d-flex justify-content-end pr-0"><button onClick={searched} class="btn btn-primary submit">Search</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>         
+
+            <div class="row"> <div class="col-12"> &nbsp; </div> </div>      
+
+            <div class="row" style={{display: (showBook.length>0) ? 'block' : 'none' }}>
+                <div class="col-12" style={style.Box}>
+                    <div class="jumbotron pl-0 pr-0 pb-0 pt-0" style={style.BgColor}>
+                        <div class="row"><div class="col-12 mb-2 mt-2"><h5>Results:</h5></div></div> 
+
+                        { showBook.map( book =>
+                                                <div class="col-12 mb-1" style={style.Box}>
+                                                    <div class="row">
+                                                        <div class="col-6 d-flex justify-content-start">
+                                                            <div class="row mb-0">
+                                                                <h3 class="col-12 mt-4 pl-3" >{book.volumeInfo.title}</h3>
+                                                                <h6 class="col-12 mb-2 pl-4" ><b>Written by: </b>{book.volumeInfo.authors}</h6>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-6 mt-2 d-flex justify-content-end align-self-baseline">
+                                                            <button data-majid={book.volumeInfo.infoLink} onClick={viewlink}>View</button>
+                                                            &nbsp;
+                                                            <button onClick={
+                                                            (e) => savebook(e,
+                                                                {
+                                                                    booktitle : book.volumeInfo.title,
+                                                                    bookimageLinks : book.volumeInfo.imageLinks,
+                                                                    bookinfoLink : book.volumeInfo.infoLink,
+                                                                    bookdescription : book.volumeInfo.description,
+                                                                    bookauthors : book.volumeInfo.authors
+                                                                }
+                                                            )}>Save</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row pb-4">
+                                                        <div class="col-2 d-flex justify-content-start align-self-baseline">
+                                                        <img src={(book.volumeInfo.imageLinks)?book.volumeInfo.imageLinks.smallThumbnail:'https://placehold.it/100x100'} alt={book.volumeInfo.title} class='img-thumbnail' />
+                                                        </div>
+                                                        <div class="col-9 ml-4 pl-4 d-flex justify-content-start align-self-baseline">
+                                                            <div>{book.volumeInfo.description}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    )}
+
+                    </div>
+                </div>
             </div>
 
+            <div class="row"> <div class="col-12"> &nbsp; </div> </div>      
 
+            </div>
 
         </>
     )

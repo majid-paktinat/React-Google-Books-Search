@@ -4,8 +4,13 @@ import React, { useState, useEffect, useRef } from "react";
 function Saved( props ){
     const [ savedBooks, setSavedBooks ]= useState([]);
     
+    const style = {
+        Box: { border: "1px darkgray solid" },
+        BgColor: { backgroundColor: 'white'}
+      }
+
     // load only ONCE at component load
-    var savedbooksapi = [];
+    // var savedbooksapi = [];
     useEffect( function(){
         loadBooks();
     }, [] );
@@ -17,7 +22,6 @@ function Saved( props ){
     }
 
     function viewlink(e){
-        // console.log(myid.current[0]);
         window.location.assign(e.target.dataset.majid);
 
     }
@@ -35,24 +39,38 @@ function Saved( props ){
         if (deleteResult) loadBooks();
     }
     
-
     return (
         <>
-                <div class="mb-3">
-                    <ul class="col-6 list-group">
+            <div class="container">
+                <div class="row">
                         { savedBooks.map( (book, index) =>
-                        <>
-                            <li class="list-group-item">{book.title}</li> 
-                            <li class="list-group-item"><img src={book.image} alt="" class='img-thumbnail' /></li> 
-                            {/* <li class="list-group-item"><a href={book.link} class='img-thumbnail'>view</a></li>  */}
-                            <li class="list-group-item"><button data-majid={book.link} onClick={viewlink}>View</button></li> 
-                            <li class="list-group-item"><button data-majid={book._id} onClick={(e)=>deletelink(e,book._id)}>Delete</button></li> 
-                            <li class="list-group-item">{book.authors}</li> 
-                            <li class="list-group-item">{book.description}</li> 
-                        </>
+                                <div class="col-12 mb-1" style={style.Box}>
+                                <div class="row">
+                                    <div class="col-6 d-flex justify-content-start">
+                                        <div class="row mb-0">
+                                            <h3 class="col-12 mt-4 pl-3" >{book.title}</h3>
+                                            <h6 class="col-12 mb-2 pl-4" ><b>Written by: </b>{book.authors}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-2 d-flex justify-content-end align-self-baseline">
+                                        <button data-majid={book.link} onClick={viewlink}>View</button>
+                                        &nbsp;
+                                        <button data-majid={book._id} onClick={(e)=>deletelink(e,book._id)}>Delete</button>
+                                    </div>
+                                </div>
+                                <div class="row pb-4">
+                                    <div class="col-2 d-flex justify-content-start align-self-baseline">
+                                    <img src={(book.image)?book.image:'https://placehold.it/100x100'} alt={book.title} class='img-thumbnail' />
+                                    </div>
+                                    <div class="col-9 ml-4 pl-4 d-flex justify-content-start align-self-baseline">
+                                        <div>{book.description}</div>
+                                    </div>
+                                </div>
+                            </div>
                         )}
-                    </ul>
                 </div>
+            </div>
+            
         </>
     )
 }
