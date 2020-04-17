@@ -19,7 +19,7 @@ function NavBar() {
       <div id="navbarSupportedContent"> {/* <div className={showClass} id="navbarSupportedContent"></div> */}
         <ul class="navbar-nav mr-auto">
           <li className="nav-item">
-            <Link to="/search" className={location.pathname === "/search" ? "nav-link active" : "nav-link"}>
+            <Link to="/search" className={location.pathname === "/search" || location.pathname === "/" ? "nav-link active" : "nav-link"}>
               Search
             </Link>
           </li>  

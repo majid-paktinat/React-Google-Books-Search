@@ -3,8 +3,9 @@ import React, { useState, useRef } from "react";
 function Search( props ){
    
     const [ showBook, setShowBook ]= useState([]);
-    const txtSearch = useRef();
+    const [ alertMessage, setAlertMessage ] = useState( { type: "", message: ""} );
     
+    const txtSearch = useRef();    
     
     const style = {
         Box: { border: "1px darkgray solid" },
@@ -19,9 +20,20 @@ function Search( props ){
 
 
     async function searchbooks( txtSearch ){    
-        const apiBook = await fetch(`/api/books/${txtSearch}`).then( result=>result.json() );
+        const apiBook = await fetch(`/api/books/${txtSearch}`).then( result=>result.json() ).catch(err => []);
         console.log(apiBook)
         setShowBook( apiBook );
+        
+
+        if (apiBook.length>0){
+            setAlertMessage( { type: 'success', message: 'Thank you, result found!' } );
+            setTimeout( function(){ setAlertMessage({ type: "", message: ""}); }, 3000 );
+        } else {
+            // setAlertMessage( { type: 'danger', message: apiResult.error } );
+            setAlertMessage( { type: 'danger', message: "The search keyword did not found, please try again!" } );
+            setTimeout( function(){ setAlertMessage({ type: "", message: ""});}, 3000 );
+        }
+
     }
 
 
@@ -51,7 +63,13 @@ function Search( props ){
 
     return (
         <>
+            {/* { (alert) ? <Redirect to='/search' /> : '' } */}
+
+
             <div class="container">
+            <div className={ alertMessage.type ? `alert alert-${alertMessage.type}` : 'd-hide' } role="alert">
+                {alertMessage.message}
+            </div>
 
             <div class="row">
                 <div class="col-12 pl-0 pr-0" style={style.Box}>
